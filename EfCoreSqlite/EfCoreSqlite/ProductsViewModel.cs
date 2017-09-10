@@ -23,6 +23,7 @@ namespace EfCoreSqlite
                 OnPropertyChanged();
             }
         }
+
         public double ProductPrice { get; set; }
 
         public string ProductTitle { get; set; }

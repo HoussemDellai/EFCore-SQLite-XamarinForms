@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>ProductsViewModel</Title>
+      <Author>[USERNAME]</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp" Delimiter="$"><![CDATA[public class ProductsViewModel : INotifyPropertyChanged
+{
+    private readonly IProductsRepository _productsRepository;
+    private IEnumerable<Product> _products;
+
+    public IEnumerable<Product> Products
+    {
+        get
+        {
+            return _products;
+        }
+        set
+        {
+            _products = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public double ProductPrice { get; set; }
+
+    public string ProductTitle { get; set; }
+
+    public ICommand RefreshCommand
+    {
+        get
+        {
+            return new Command(async () =>
+            {
+                Products = await _productsRepository.GetProductsAsync();
+            });
+        }
+    }
+
+    public ICommand AddCommand
+    {
+        get
+        {
+            return new Command(async () =>
+            {
+                var product = new Product
+                {
+                    Title = ProductTitle,
+                    Price = ProductPrice,
+                };
+                await _productsRepository.AddProductAsync(product);
+            });
+        }
+    }
+
+    public ProductsViewModel(IProductsRepository productsRepository)
+    {
+        _productsRepository = productsRepository;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

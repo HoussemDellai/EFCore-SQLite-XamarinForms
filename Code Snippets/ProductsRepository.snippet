@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>ProductsRepository</Title>
+      <Author>[USERNAME]</Author>
+      <Description>
+      </Description>
+      <HelpUrl>
+      </HelpUrl>
+      <Shortcut>
+      </Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp" Delimiter="$"><![CDATA[public class ProductsRepository : IProductsRepository
+    {
+
+        private readonly DatabaseContext _databaseContext;
+
+        public ProductsRepository(string dbPath)
+        {
+            _databaseContext = new DatabaseContext(dbPath);
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsAsync()
+        {
+            try
+            {
+                var products = await _databaseContext.Products.ToListAsync();
+
+                return products;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+            try
+            {
+                var product = await _databaseContext.Products.FindAsync(id);
+
+                return product;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> AddProductAsync(Product product)
+        {
+            try
+            {
+                var tracking = await _databaseContext.Products.AddAsync(product);
+
+                await _databaseContext.SaveChangesAsync();
+
+                var isAdded = tracking.State == EntityState.Added;
+
+                return isAdded;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateProductAsync(Product product)
+        {
+            try
+            {
+                var tracking = _databaseContext.Update(product);
+
+                await _databaseContext.SaveChangesAsync();
+
+                var isModified = tracking.State == EntityState.Modified;
+
+                return isModified;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveProductAsync(int id)
+        {
+            try
+            {
+                var product = await _databaseContext.Products.FindAsync(id);
+
+                var tracking = _databaseContext.Remove(product);
+
+                await _databaseContext.SaveChangesAsync();
+
+                var isDeleted = tracking.State == EntityState.Deleted;
+
+                return isDeleted;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<IEnumerable<Product>> QueryProductsAsync(Func<Product, bool> predicate)
+        {
+            try
+            {
+                var products = _databaseContext.Products.Where(predicate);
+
+                return products.ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+    }]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
