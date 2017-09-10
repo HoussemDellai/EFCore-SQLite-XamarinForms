@@ -1,5 +1,6 @@
 ﻿namespace EfCoreSqlite
 {
+
     public class Product
     {
         public int Id { get; set; }
@@ -10,7 +11,7 @@
 
         public override string ToString()
         {
-            return $"({Id}) {Title}, {Price}";
+            return string.Format("({0}) {1}, {2}", Id, Title, Price);
         }
     }
 }

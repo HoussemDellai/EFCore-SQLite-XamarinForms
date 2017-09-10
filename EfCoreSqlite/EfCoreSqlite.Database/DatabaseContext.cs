@@ -2,6 +2,7 @@
 
 namespace EfCoreSqlite.Database
 {
+
     public class DatabaseContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
@@ -18,7 +19,7 @@ namespace EfCoreSqlite.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Filename={_databasePath}");
+            optionsBuilder.UseSqlite(string.Format("Filename={0}", _databasePath));
         }
     }
 }

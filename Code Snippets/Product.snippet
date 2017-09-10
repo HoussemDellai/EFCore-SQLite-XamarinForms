@@ -15,19 +15,19 @@
       </Shortcut>
     </Header>
     <Snippet>
-      <Code Language="csharp" Delimiter="$"><![CDATA[    public class Product
+      <Code Language="csharp" Delimiter="$"><![CDATA[public class Product
+{
+    public int Id { get; set; }
+
+    public string Title { get; set; }
+
+    public double Price { get; set; }
+
+    public override string ToString()
     {
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
-        public double Price { get; set; }
-
-        public override string ToString()
-        {
-            return $"({Id}) {Title}, {Price}";
-        }
-    }]]></Code>
+        return string.Format("({0}) {1}, {2}", Id, Title, Price);
+    }
+}]]></Code>
     </Snippet>
   </CodeSnippet>
 </CodeSnippets>

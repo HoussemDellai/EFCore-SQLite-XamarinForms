@@ -16,24 +16,24 @@
     </Header>
     <Snippet>
       <Code Language="csharp" Delimiter="$"><![CDATA[public class DatabaseContext : DbContext
+{
+    public DbSet<Product> Products { get; set; }
+
+    private readonly string _databasePath;
+
+    public DatabaseContext(string databasePath)
     {
-        public DbSet<Product> Products { get; set; }
+        _databasePath = databasePath;
 
-        private readonly string _databasePath;
+        //Database.EnsureDeleted();
+        Database.EnsureCreated();
+    }
 
-        public DatabaseContext(string databasePath)
-        {
-            _databasePath = databasePath;
-
-            //Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite($"Filename={_databasePath}");
-        }
-    }]]></Code>
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlite(string.Format("Filename={0}", _databasePath));
+    }
+}]]></Code>
     </Snippet>
   </CodeSnippet>
 </CodeSnippets>
