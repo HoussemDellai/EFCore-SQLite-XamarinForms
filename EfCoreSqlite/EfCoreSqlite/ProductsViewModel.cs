@@ -24,13 +24,17 @@ namespace EfCoreSqlite
             }
         }
         public double ProductPrice { get; set; }
+
         public string ProductTitle { get; set; }
 
         public ICommand RefreshCommand
         {
             get
             {
-                return new Command(async () => Products = await _productsRepository.GetProductsAsync());
+                return new Command(async () =>
+                {
+                    Products = await _productsRepository.GetProductsAsync();
+                });
             }
         }
 
