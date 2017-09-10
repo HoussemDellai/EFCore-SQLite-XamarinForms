@@ -12,7 +12,7 @@ namespace EfCoreSqlite.Database
         {
             _databasePath = databasePath;
 
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
